@@ -1,11 +1,11 @@
-//从校园网认证网页复制下来并添加一个getloginKey函数
+//从校园网认证网页复制下来并添加一个getLoginKey函数
 //原本共3个js文件，为了方便将其合并
 //RAS.js    Barrett.js   BigInt.js
 //@Time : 2021/11/27 18:32
 
 
 // 方便调用
-function getloginKey(username, password, code)
+function getLoginKey(username, password, code)
 {
     setMaxDigits(200);
 	var key = new RSAKeyPair("10001","","b2867727e19e1163cc084ea57b9fa8406a910c6703413fa7df96c1acdca7b983a262e005af35f9485d92cd4c622eca4a14d6fd818adca5cae73d9d228b4ef05d732b41fb85f80af578a150ebd9a2eb5ececb853372ca4731ca1c8686892987409be3247f9b26cae8e787d8c135fc0652ec0678a5eda0c3d95cc1741517c0c9c3");
