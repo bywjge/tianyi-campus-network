@@ -69,7 +69,7 @@ def login(js):
             r = session.get(url, headers=headers)
         except requests.exceptions.ConnectionError:  # 无法访问校园网认证连接
             print("请先连接校园网\n按任意键退出······")
-            input()
+            getch()
             sys.exit(0)
 
         # 验证码识别
@@ -79,7 +79,8 @@ def login(js):
             codestr = ocr.classification(r.content)
         except:
             print("异常")
-            input()
+            getch()
+            sys.exit(0)
 
         # 调用js生成loginKey参数
         loginKey = js.call('getloginKey', username, password, codestr)
@@ -98,8 +99,8 @@ def login(js):
 
 if __name__ == "__main__":
 
-    username = "19120553737"
-    password = "02155412"
+    username = ""
+    password = ""
     if username == "" or password == "":
         print("账号密码为空\n按回车退出...")
         getch()
@@ -115,4 +116,4 @@ if __name__ == "__main__":
         elif CanConnect() == -1:
             print("请先连接校园网")
 
-        time.sleep(3)
+        time.sleep(3)   # 隔3秒检测一次
