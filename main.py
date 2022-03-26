@@ -49,7 +49,7 @@ def initJS():
         with open("RAS.js", "r", encoding="utf-8") as f:
             jsstr = f.read()
     except:
-        print("找不到RAS.js文件或者文件出错\n正尝试从github上下载···", end="")
+        print("找不到RAS.js文件或者文件出错\n正尝试从gitee上下载···", end="")
         headers = {
             'User-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Safari/537.36',
             'Referer': 'https://gitee.com/bailuqiao/Tainyi-campus-network/blob/main/RAS.js'
