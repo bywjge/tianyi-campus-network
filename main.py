@@ -49,9 +49,18 @@ def initJS():
         with open("RAS.js", "r", encoding="utf-8") as f:
             jsstr = f.read()
     except:
-        print("找不到RAS.js文件\n按任意键退出······")
-        getch()
-        sys.exit(0)
+        print("找不到RAS.js文件或者文件出错\n正尝试从github上下载···", end="")
+        try:
+            r = requests.get("https://github.com/Bailuqiao/Tainyi-campus-network/raw/main/RAS.js")
+        except:
+            print("失败\n按任意键退出...")
+            getch()
+            sys.exit(0)
+        with open("RAS.js", "wb") as f:
+            f.write(r.content)
+        print("成功")
+        with open("RAS.js", "r", encoding="utf-8") as f:
+            jsstr = f.read()
 
     return execjs.compile(jsstr)
 
@@ -69,7 +78,7 @@ def login(js):
             r = session.get(url, headers=headers)
         except requests.exceptions.ConnectionError:  # 无法访问校园网认证连接
             print("请先连接校园网\n按任意键退出······")
-            getch()
+            input()
             sys.exit(0)
 
         # 验证码识别
@@ -79,11 +88,10 @@ def login(js):
             codestr = ocr.classification(r.content)
         except:
             print("异常")
-            getch()
-            sys.exit(0)
+            input()
 
         # 调用js生成loginKey参数
-        loginKey = js.call('getloginKey', username, password, codestr)
+        loginKey = js.call('getLoginKey', username, password, codestr)
 
         data = {"loginKey": loginKey,
                 "wlanuserip": ip_dict["wlanuserip"],
@@ -116,4 +124,4 @@ if __name__ == "__main__":
         elif CanConnect() == -1:
             print("请先连接校园网")
 
-        time.sleep(3)   # 隔3秒检测一次
+        time.sleep(3)
