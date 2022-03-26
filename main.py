@@ -96,8 +96,8 @@ def login(js):
 
 if __name__ == "__main__":
 
-    username = "19120553737"
-    password = "02155412"
+    username = ""
+    password = ""
     if username == "" or password == "":
         print("账号密码为空")
         input("按回车退出...")
