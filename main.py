@@ -7,12 +7,12 @@
 import json
 import sys
 import time
+from msvcrt import getch
 from urllib import parse
 
 import ddddocr
 import execjs
 import requests
-from msvcrt import getch
 
 
 def CanConnect():
@@ -50,8 +50,12 @@ def initJS():
             jsstr = f.read()
     except:
         print("找不到RAS.js文件或者文件出错\n正尝试从github上下载···", end="")
+        headers = {
+            'User-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Safari/537.36',
+            'Referer': 'https://gitee.com/bailuqiao/Tainyi-campus-network/blob/main/RAS.js'
+        }
         try:
-            r = requests.get("https://github.com/Bailuqiao/Tainyi-campus-network/raw/main/RAS.js")
+            r = requests.get("https://gitee.com/bailuqiao/Tainyi-campus-network/raw/main/RAS.js", headers=headers)
         except:
             print("失败\n按任意键退出...")
             getch()
