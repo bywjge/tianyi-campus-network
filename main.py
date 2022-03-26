@@ -12,6 +12,7 @@ from urllib import parse
 import ddddocr
 import execjs
 import requests
+from msvcrt import getch
 
 
 def CanConnect():
@@ -34,6 +35,7 @@ def CanConnect():
             parsed = parse.urlparse(r.url)
             querys = parse.parse_qsl(str(parsed.query))
             ip_dict = dict(querys)
+            ip_dict["base"] = parsed.netloc
             return 0
     except requests.exceptions.ConnectionError as e:
         if "10065" in str(e.args):  # 未连接网络
@@ -48,7 +50,7 @@ def initJS():
             jsstr = f.read()
     except:
         print("找不到RAS.js文件\n按任意键退出······")
-        input()
+        getch()
         sys.exit(0)
 
     return execjs.compile(jsstr)
@@ -60,7 +62,7 @@ def login(js):
     while 1:
         t = time.time()
         timestamp = int(round(t * 1000))  # 毫秒级时间戳
-        url = "http://125.88.59.131:10001/common/image_code.jsp?time=" + str(timestamp)  # 好像不加参数也可以
+        url = "http://" + ip_dict["base"] + "/common/image_code.jsp?time=" + str(timestamp)  # 好像不加参数也可以
         headers = {
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36"}
         try:
@@ -86,7 +88,7 @@ def login(js):
                 "wlanuserip": ip_dict["wlanuserip"],
                 "wlanacip": ip_dict["wlanacip"]}
 
-        r = session.post("http://125.88.59.131:10001/ajax/login", headers=headers, data=data)
+        r = session.post(f"http://{ip_dict['base']}/ajax/login", headers=headers, data=data)
         buff = json.loads(r.text)
         if buff["resultCode"] != "11063000":  # 验证码错误代号
             print("成功")
@@ -96,11 +98,11 @@ def login(js):
 
 if __name__ == "__main__":
 
-    username = ""
-    password = ""
+    username = "19120553737"
+    password = "02155412"
     if username == "" or password == "":
-        print("账号密码为空")
-        input("按回车退出...")
+        print("账号密码为空\n按回车退出...")
+        getch()
         sys.exit(0)
 
     js_compile = initJS()
